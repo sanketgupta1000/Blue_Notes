@@ -10,9 +10,9 @@
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
     <!-- MDB -->
-    <link rel="stylesheet" href="/mdb/css/mdb.min.css" />
+    <link rel="stylesheet" href="/blue_notes/mdb/css/mdb.min.css" />
     <!-- favicon -->
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/blue_notes/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
 
@@ -38,12 +38,12 @@
 
                             <li class="nav-item" role="presentation">
                                 <a
-                                class="nav-link active"
+                                class="nav-link<?php if(isset($_GET["signup"])) echo " active"; ?>"
                                 id="signupTab"
                                 data-mdb-toggle="tab"
                                 href="#signupPane"
                                 aria-controls="signup"
-                                aria-selected="true"
+                                aria-selected="<?php if(isset($_GET["signup"])) echo "true"; else echo "false"; ?>"
                                 role="tab"
                                 >
                                     Sign Up
@@ -52,12 +52,12 @@
 
                             <li class="nav-item" role="presentation">
                                 <a
-                                class="nav-link"
+                                class="nav-link<?php if(isset($_GET["login"])) echo " active"; ?>"
                                 id="loginTab"
                                 data-mdb-toggle="tab"
                                 href="#loginPane"
                                 aria-controls="login"
-                                aria-selected="false"
+                                aria-selected="<?php if(isset($_GET["login"])) echo "true"; else echo "false"; ?>"
                                 role="tab"
                                 >
                                     Login
@@ -71,7 +71,7 @@
 
                             <!-- sign up panel -->
                             <form
-                            class="tab-pane fade show active"
+                            class="tab-pane fade<?php if(isset($_GET["signup"])) echo " show active"; ?>"
                             id="signupPane"
                             role="tabpanel"
                             aria-labelledby="signupTab"
@@ -114,7 +114,7 @@
 
                             <!-- login panel -->
                             <form
-                            class="tab-pane fade"
+                            class="tab-pane fade<?php if(isset($_GET["login"])) echo " show active"; ?>"
                             id="loginPane"
                             role="tabpanel"
                             aria-labelledby="loginTab"
@@ -160,7 +160,7 @@
     </main>
     
     <!-- MDB -->
-    <script src="/mdb/js/mdb.min.js"></script>
+    <script src="/blue_notes/mdb/js/mdb.min.js"></script>
 
     <!-- validation -->
     <script src="user_account.js"></script>
