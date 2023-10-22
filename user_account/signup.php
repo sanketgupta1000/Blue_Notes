@@ -33,13 +33,7 @@
             $response["invalidSignupEmail"] = true;
         }
 
-        if(empty($password))
-        {
-            $response["validity"] = false;
-            $response["emptySignupPass"] = true;
-        }
-
-        if(empty($confirmpassword)||((!empty($password) && $password!=$confirmpassword)))
+        if($password!=$confirmpassword)
         {
             $response["validity"] = false;
             $response["invalidConfirmPass"] = true;

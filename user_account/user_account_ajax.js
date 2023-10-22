@@ -75,17 +75,6 @@ async function signupAjaxSend()
                                 signupEmail.classList.add("is-valid");
                             }
         
-                            if(signupResponse.emptySignupPass===true)
-                            {
-                                signupPass.classList.remove("is-valid");
-                                signupPass.classList.add("is-invalid");
-                            }
-                            else
-                            {
-                                signupPass.classList.remove("is-invalid");
-                                signupPass.classList.add("is-valid");
-                            }
-        
                             if(signupResponse.invalidSignupConfirmPass===true)
                             {
                                 signupConfirmPass.classList.remove("is-valid");
