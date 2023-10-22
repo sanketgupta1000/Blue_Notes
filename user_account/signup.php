@@ -36,7 +36,7 @@
         if($password!=$confirmpassword)
         {
             $response["validity"] = false;
-            $response["invalidConfirmPass"] = true;
+            $response["invalidSignupConfirmPass"] = true;
         }
 
         if($response["validity"])

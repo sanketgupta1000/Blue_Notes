@@ -16,6 +16,9 @@ function validateSignup(click)
     click.preventDefault();
     click.stopPropagation();
 
+    //removing messages if any
+    removeMessages();
+
     //flag for client side validation
     let isValid = true;
 

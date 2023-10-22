@@ -49,7 +49,8 @@ async function signupAjaxSend()
                         //everything is good, backend was able to validate email and password and generate otp and send it to email
                         //will show a modal here for otp verification
                         // displaySuccess("Check your mail!");
-    
+                        otpField.value = "";
+                        otpField.classList.remove("is-invalid");
                         otpModal.show();
                     }
                     else

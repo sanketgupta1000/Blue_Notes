@@ -34,8 +34,14 @@ function displayError(errstr)
 
     let error = document.createElement("div");
     error.id="error";
-    error.classList = "alert alert-danger p-3 text-center";
+    error.classList = "alert alert-danger alert-dismissible text-center fade show";
     error.textContent = errstr;
+
+    let closebtn = document.createElement("button");
+    closebtn.classList.add("btn-close");
+    closebtn.setAttribute("data-mdb-dismiss", "alert");
+    closebtn.setAttribute("aria-label", "Close");
+    error.appendChild(closebtn);
 
     //showing
     accountTabs.insertAdjacentElement("afterend", error);
@@ -48,8 +54,14 @@ function displaySuccess(successstr)
 
     let success = document.createElement("div");
     success.id = "success";
-    success.classList = "alert alert-success p-3 text-center";
+    success.classList = "alert alert-success alert-dismissible fade show text-center";
     success.textContent = successstr;
+
+    let closebtn = document.createElement("button");
+    closebtn.classList.add("btn-close");
+    closebtn.setAttribute("data-mdb-dismiss", "alert");
+    closebtn.setAttribute("aria-label", "Close");
+    success.appendChild(closebtn);
 
     accountTabs.insertAdjacentElement("afterend", success);
 }
