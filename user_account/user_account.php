@@ -122,36 +122,9 @@
 
                                 <div class="row gy-3 gy-md-4">
 
-                                    <?php
-                                        //feedback from backend for email already taken
-                                        if(isset($_GET["emailTaken"]))
-                                        {
-                                            echo '<div class="col-12">
-                                                    <div class="alert alert-danger mb-0 p-3 text-center">
-                                                        Email is already registered. Try logging in
-                                                    </div>
-                                                </div>';
-                                        }
-                                    ?>
-
                                     <div class="col-12">
                                         <div class="form-outline">
-                                            <input type="email" id="signupEmail" name="email" required class="form-control
-                                                                                                            <?php
-                                                                                                                //validation from back-end
-                                                                                                                if(isset($_GET["invalidSignupEmail"]))
-                                                                                                                {
-                                                                                                                    echo " is-invalid";
-                                                                                                                }
-                                                                                                            ?>"
-                                                                                                            <?php
-                                                                                                                //validation from backend, to show email after backend found wrongly filled signup form
-                                                                                                                if(isset($_GET["signupEmail"]))
-                                                                                                                {
-                                                                                                                    echo ' value="'.$_GET['signupEmail'].'"';
-                                                                                                                }                                                                                                
-                                                                                                            ?>
-                                                                                                        >
+                                            <input type="email" id="signupEmail" name="email" required class="form-control">
                                             <label for="signupEmail" class="form-label">Email</label>
                                             <div class="invalid-feedback" id="invalid-signupEmail">Please enter valid email</div>
                                         </div>
@@ -159,15 +132,7 @@
 
                                     <div class="col-12">
                                         <div class="form-outline">
-                                            <input type="password" id="signupPass" name="password" required class="form-control
-                                                                                                                <?php
-                                                                                                                    //validation from back-end
-                                                                                                                    if(isset($_GET["emptySignupPass"]))
-                                                                                                                    {
-                                                                                                                        echo " is-invalid";
-                                                                                                                    }
-                                                                                                                ?>
-                                                                                                            ">
+                                            <input type="password" id="signupPass" name="password" required class="form-control">
                                             <label for="signupPass" class="form-label">Password</label>
                                             <div class="invalid-feedback" id="empty-signupPass">Please enter password</div>
                                         </div>
@@ -175,15 +140,7 @@
 
                                     <div class="col-12">
                                         <div class="form-outline">
-                                            <input type="password" id="signupConfirmPass" name="confirmpassword" required class="form-control
-                                                                                                                                <?php
-                                                                                                                                    //validation from back-end
-                                                                                                                                    if(isset($_GET["invalidSignupConfirmPass"]))
-                                                                                                                                    {
-                                                                                                                                        echo " is-invalid";
-                                                                                                                                    }
-                                                                                                                                ?>
-                                                                                                                            ">
+                                            <input type="password" id="signupConfirmPass" name="confirmpassword" required class="form-control">
                                             <label for="signupConfirmPass" class="form-label">Confirm Password</label>
                                             <div class="invalid-feedback" id="invalid-signupConfirmPass">Please enter valid confirm password</div>
                                         </div>
@@ -215,36 +172,9 @@
 
                                 <div class="row gy-3 gy-md-4">
 
-                                    <?php
-                                        //feedback from backend for incorrect credentials
-                                        if(isset($_GET["incorrect"]))
-                                        {
-                                            echo '<div class="col-12">
-                                                    <div class="alert alert-danger mb-0 p-3 text-center">
-                                                        Incorrect details. Please enter correct details
-                                                    </div>
-                                                </div>';
-                                        }
-                                    ?>
-
                                     <div class="col-12">
                                         <div class="form-outline">
-                                            <input type="email" id="loginEmail" name="email" required class="form-control
-                                                                                                            <?php
-                                                                                                                //validation from back-end
-                                                                                                                if(isset($_GET["invalidLoginEmail"]))
-                                                                                                                {
-                                                                                                                    echo " is-invalid";
-                                                                                                                }
-                                                                                                            ?>"
-                                                                                                            <?php
-                                                                                                                //validation from backend, to show email after backend found wrongly filled login form
-                                                                                                                if(isset($_GET["loginEmail"]))
-                                                                                                                {
-                                                                                                                    echo ' value="'.$_GET['loginEmail'].'"';
-                                                                                                                }                                                                                                
-                                                                                                            ?>
-                                                                                                        >
+                                            <input type="email" id="loginEmail" name="email" required class="form-control">
                                             <label for="loginEmail" class="form-label">Email</label>
                                             <div class="invalid-feedback" id="invalid-loginEmail">Please enter valid email</div>
                                         </div>
@@ -252,15 +182,7 @@
 
                                     <div class="col-12">
                                         <div class="form-outline">
-                                            <input type="password" id="loginPass" name="password" required class="form-control
-                                                                                                            <?php
-                                                                                                                //validation from backend
-                                                                                                                if(isset($_GET["emptyLoginPass"]))
-                                                                                                                {
-                                                                                                                    echo " is-invalid";
-                                                                                                                }
-                                                                                                            ?>"
-                                                                                                        >
+                                            <input type="password" id="loginPass" name="password" required class="form-control">
                                             <label for="loginPass" class="form-label">Password</label>
                                             <div class="invalid-feedback" id="empty-loginPass">Please enter password</div>
                                         </div>
@@ -290,6 +212,8 @@
     <script src="/blue_notes/mdb/js/mdb.min.js"></script>
 
     <!-- validation -->
-    <script src="user_account.js"></script>
+    <script src="helpers/helper.js"></script>
+    <script src="user_account_validation.js"></script>
+    <script src="user_account_ajax.js"></script>
 </body>
 </html>
