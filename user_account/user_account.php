@@ -207,6 +207,127 @@
             </div>
         </section>
     </main>
+
+    <!-- aside for modals -->
+    <aside>
+
+        <!-- modal for email verification -->
+        <div
+            class="modal fade"
+            id="verifyEmailModal"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-hidden="true"
+            aria-labelledby="verifyEmailModalTitle"
+        >
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h5 class="modal-title" id="verifyEmailModalTitle">
+                            Verify Email
+                        </h5>
+
+                        <!-- this button will toggle between this and another modal which will ask if the user really wants to cancel email verification -->
+                        <button class="btn-close" data-mdb-dismiss="modal" aria-label="Close" data-mdb-toggle="modal" data-mdb-target="#confirmCancelModal"></button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form class="container" novalidate>
+
+                            <div class="row gy-3 text-center">
+
+                                <div class="col-12">
+                                    Enter OTP sent to your mail:
+                                </div>
+                                <div class="col-4 col-md-12 mx-auto">
+
+                                    <div class="form-outline">
+
+                                        <input type="text" class="form-control" id="otp">
+                                        <label for="otp" class="form-label">OTP</label>
+                                        <div class="invalid-feedback" id="invalidOTP">Invalid OTP</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12">
+
+                                    <input type="submit" value="Submit" class="btn btn-primary" id="verifyBtn">
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- modal for confirm cancel email verification -->
+        <div
+            class="modal fade"
+            id="confirmCancelModal"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-hidden="true"
+            aria-labelledby="confirmCancelModalTitle"
+        >
+
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <div class="modal-title" id="confirmCancelModalTitle">
+                            Do you really want to cancel?
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+
+                        <!-- button which toggles between the two modal -->
+                        <button
+                            class="btn btn-outline-primary"
+                            data-mdb-ripple-color="dark"
+                            data-mdb-dismiss="modal"
+                            data-mdb-toggle="modal"
+                            data-mdb-target="#verifyEmailModal"
+                        >
+                            No
+                        </button>
+
+                        <button
+                            class="btn btn-danger"
+                            data-mdb-dismiss="modal"
+                        >
+                            Yes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
     
     <!-- MDB -->
     <script src="/blue_notes/mdb/js/mdb.min.js"></script>
