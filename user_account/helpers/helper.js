@@ -6,6 +6,7 @@ const badRequest = "Bad request to server. Please try again later";
 const badDatabaseConn = "Bad database connection. Please try again later";
 const mailServiceDown = "Mail service is down. Please try again later";
 const emailTaken = "Email is already registered. Try logging in";
+const accountCreated = "Your account has been created. You can now log in";
 
 let accountTabs = document.getElementById("accountTabs");
 
@@ -62,4 +63,29 @@ async function hashPassword(password)
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
     return hashHex;
+}
+
+//function to check and show server errors found in any response
+//returns true if any server errors
+function checkServerErrors(respObj)
+{
+    let areErrors = false;
+
+    if(respObj.badRequest===true)
+    {
+        displayError(badRequest);
+        areErrors = true;
+    }
+    else if(respObj.badDatabaseConn===true)
+    {
+        displayError(badDatabaseConn);
+        areErrors = true;
+    }
+    else if(respObj.mailServiceDown===true)
+    {
+        displayError(mailServiceDown);
+        areErrors = true;
+    }
+
+    return areErrors;
 }
