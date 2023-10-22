@@ -1,4 +1,6 @@
-// will do client side validation here
+// will do client side validation here of signup and login form
+
+//client side validation of signup form. If it succeeds, will do an ajax request to backend (signup.php)
 
 // getting access of elements related to sign up
 let signupForm = document.getElementById("signupPane");
@@ -7,19 +9,24 @@ let signupPass = document.getElementById("signupPass");
 let signupConfirmPass = document.getElementById("signupConfirmPass");
 let signupBtn = document.getElementById("signupBtn");
 
-//adding event listener to signupbtn
-signupBtn.addEventListener("click", (click)=>
+//function to validate signup form upon click on sign up button
+function validateSignup(click)
 {
+    //preventing submit, as will do dynamic form submission using ajax
+    click.preventDefault();
+    click.stopPropagation();
+
+    //flag for client side validation
+    let isValid = true;
+
     //validating email
     if(!signupEmail.checkValidity())
-    {
+    {   
+        isValid = false;
+
         //applying mdb class to trigger the feedback
         signupEmail.classList.remove("is-valid");
         signupEmail.classList.add("is-invalid");
-
-        //preventing submit
-        click.preventDefault();
-        click.stopPropagation();
     }
     else
     {
@@ -30,11 +37,10 @@ signupBtn.addEventListener("click", (click)=>
     //validating password and confirm password
     if(signupPass.value=="")
     {
+        isValid = false;
+
         signupPass.classList.remove("is-valid");
         signupPass.classList.add("is-invalid");
-
-        click.preventDefault();
-        click.stopPropagation();
     }
     else
     {
@@ -44,11 +50,10 @@ signupBtn.addEventListener("click", (click)=>
 
     if((signupConfirmPass.value=="")||((signupPass.value!="")&&(signupPass.value!=signupConfirmPass.value)))
     {
+        isValid = false;
+
         signupConfirmPass.classList.remove("is-valid");
         signupConfirmPass.classList.add("is-invalid");
-
-        click.preventDefault();
-        click.stopPropagation();
     }
     else
     {
@@ -56,7 +61,16 @@ signupBtn.addEventListener("click", (click)=>
         signupConfirmPass.classList.add("is-valid");
     }
 
-});
+    //checking if valid or not
+    if(isValid)
+    {
+        //sending ajax request to signup.php
+        signupAjaxSend();
+    }
+}
+
+//adding event listener to signupbtn
+signupBtn.addEventListener("click", validateSignup);
 
 
 // getting access of elements related to login
