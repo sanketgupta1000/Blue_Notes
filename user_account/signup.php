@@ -17,7 +17,7 @@
         $email = filter_input(INPUT_POST,"email", FILTER_SANITIZE_EMAIL);
         
         //validating email
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
         //getting hashed passwords
         $password = $_POST["password"];
@@ -84,7 +84,10 @@
                 exit;
             }
 
-            if(mysqli_affected_rows($link)==1)
+            //getting result
+            $result = mysqli_stmt_get_result($stmt);
+
+            if(mysqli_num_rows($result)>0)
             {
                 //1 row selected, means email already registered
                 $response["validity"] = false;
@@ -92,6 +95,7 @@
 
                 //sending response
                 echo json_encode($response);
+                exit;
             }
             else
             {
@@ -137,7 +141,7 @@
                 {
                     //error while sending mail
                     //sending response back
-                    echo '{mailServiceDown: true}';
+                    echo '{"mailServiceDow"n: true}';
                     exit;
                 }
                 
