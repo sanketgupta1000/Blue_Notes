@@ -66,11 +66,39 @@ function validateSignup(click)
     {
         //sending ajax request to signup.php
         signupAjaxSend();
+        //adding event listener to modal btn for signup otp verification
+        otpBtn.addEventListener("click", validateSignupOTP);
+        //removing event listener for forgot password otp verification (if any)
+        // otpBtn.removeEventListener("click", validateForgotPassOTP);
     }
 }
 
 //adding event listener to signupbtn
 signupBtn.addEventListener("click", validateSignup);
+
+
+//getting access of elements related to otp validation
+let otpModal = new mdb.Modal(document.getElementById("verifyEmailModal"));
+let otpField = document.getElementById("otp");
+let otpBtn = document.getElementById("verifyBtn");
+
+//function to validate otp (check if non-empty) for signup and send ajax request if valid
+function validateSignupOTP(click)
+{
+    //stop submission, since it is dynamic using ajax
+    click.preventDefault();
+    click.stopPropagation();
+
+    if(otpField.value=="")
+    {
+        otpField.classList.add("is-invalid");
+    }
+    else
+    {
+        //now sending ajax request
+        signupOTPAjaxSend();
+    }
+}
 
 
 // getting access of elements related to login

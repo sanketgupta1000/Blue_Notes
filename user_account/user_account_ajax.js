@@ -41,74 +41,129 @@ async function signupAjaxSend()
                 let signupResponse = JSON.parse(signupReq.responseText);
     
                 //now will check for errors on server
-                if(signupResponse.badRequest===true)
+                if(!checkServerErrors(signupResponse))
                 {
-                    displayError(badRequest);
-                }
-                else if(signupResponse.badDatabaseConn===true)
-                {
-                    displayError(badDatabaseConn);
-                }
-                else if(signupResponse.mailServiceDown===true)
-                {
-                    displayError(mailServiceDown);
-                }
-                //now logical errors
-                else if(signupResponse.validity===true)
-                {
-                    //everything is good, backend was able to validate email and password and generate otp and send it to email
-                    //will show a modal here for otp verification
-                    displaySuccess("Check your mail!");
-                }
-                else
-                {
-                    //backend said that inputs are invalid
-                    if(signupResponse.emailTaken===true)
+                    //now logical errors
+                    if(signupResponse.validity===true)
                     {
-                        //email is already taken, will show an error message
-                        displayError(emailTaken);
+                        //everything is good, backend was able to validate email and password and generate otp and send it to email
+                        //will show a modal here for otp verification
+                        // displaySuccess("Check your mail!");
+    
+                        otpModal.show();
                     }
                     else
                     {
-                        //now showing error on proper fields
-    
-                        if(signupResponse.invalidSignupEmail===true)
+                        //backend said that inputs are invalid
+                        if(signupResponse.emailTaken===true)
                         {
-                            signupEmail.classList.remove("is-valid");
-                            signupEmail.classList.add("is-invalid");
+                            //email is already taken, will show an error message
+                            displayError(emailTaken);
                         }
                         else
                         {
-                            signupEmail.classList.remove("is-invalid");
-                            signupEmail.classList.add("is-valid");
-                        }
-    
-                        if(signupResponse.emptySignupPass===true)
-                        {
-                            signupPass.classList.remove("is-valid");
-                            signupPass.classList.add("is-invalid");
-                        }
-                        else
-                        {
-                            signupPass.classList.remove("is-invalid");
-                            signupPass.classList.add("is-valid");
-                        }
-    
-                        if(signupResponse.invalidSignupConfirmPass===true)
-                        {
-                            signupConfirmPass.classList.remove("is-valid");
-                            signupConfirmPass.classList.add("is-invalid");
-                        }
-                        else
-                        {
-                            signupConfirmPass.classList.remove("is-invalid");
-                            signupConfirmPass.classList.add("is-valid");
+                            //now showing error on proper fields
+        
+                            if(signupResponse.invalidSignupEmail===true)
+                            {
+                                signupEmail.classList.remove("is-valid");
+                                signupEmail.classList.add("is-invalid");
+                            }
+                            else
+                            {
+                                signupEmail.classList.remove("is-invalid");
+                                signupEmail.classList.add("is-valid");
+                            }
+        
+                            if(signupResponse.emptySignupPass===true)
+                            {
+                                signupPass.classList.remove("is-valid");
+                                signupPass.classList.add("is-invalid");
+                            }
+                            else
+                            {
+                                signupPass.classList.remove("is-invalid");
+                                signupPass.classList.add("is-valid");
+                            }
+        
+                            if(signupResponse.invalidSignupConfirmPass===true)
+                            {
+                                signupConfirmPass.classList.remove("is-valid");
+                                signupConfirmPass.classList.add("is-invalid");
+                            }
+                            else
+                            {
+                                signupConfirmPass.classList.remove("is-invalid");
+                                signupConfirmPass.classList.add("is-valid");
+                            }
                         }
                     }
                 }
             }
             else
             {
+                displayError(badResponse);
+            }
+        }
+    }
+}
+
+//ajax sequest sender for signup otp verification
+function signupOTPAjaxSend()
+{
+    //request object
+    let signupOTPReq = new XMLHttpRequest();
+
+    //setting response handler
+    signupOTPReq.onreadystatechange = signupOTPAjaxHandle;
+
+    //opening request
+    signupOTPReq.open("POST", "signup_otp.php");
+
+    //setting header
+    signupOTPReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //sending request
+    signupOTPReq.send("otp="+otpField.value);
+
+    //ajax response handler
+    function signupOTPAjaxHandle()
+    {
+        if(signupOTPReq.readyState===XMLHttpRequest.DONE)
+        {
+            //response ready
+            console.log(signupOTPReq.status);
+            if(signupOTPReq.status===200)
+            {
+                //good response
+
+                //getting response as object
+                console.log(signupOTPReq.responseText);
+                let signupOTPResp = JSON.parse(signupOTPReq.responseText);
+
+                //checking server errors
+                if(!checkServerErrors(signupOTPResp))
+                {
+                    //logical errors
+                    if(signupOTPResp.validity===true)
+                    {
+                        //all good. account created
+                        //hiding modal and showing success message
+                        otpModal.hide();
+                        displaySuccess(accountCreated);
+                    }
+                    else
+                    {
+                        //otp verification failed
+                        //showing feedback
+                        otpModal.show(); //if not already showing
+                        otpField.classList.add("is-invalid");
+                    }
+                }
+            }
+            else
+            {
+                //bad response
                 displayError(badResponse);
             }
         }
