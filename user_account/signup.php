@@ -1,15 +1,7 @@
 <?php
 
     require_once "./../helpers/config.php";
-
-    //including php mailer for sending otp
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
-    use PHPMailer\PHPMailer\SMTP;
-
-    require './../PHPMailer/src/Exception.php';
-    require './../PHPMailer/src/PHPMailer.php';
-    require './../PHPMailer/src/SMTP.php';
+    require_once "./helpers/helper.php";
 
     if(isset($_POST["email"])&&isset($_POST["password"])&&isset($_POST["confirmpassword"]))
     {
@@ -106,36 +98,18 @@
                 //hashing
                 $password = password_hash($password, PASSWORD_BCRYPT);
                 
-                //now will generate an otp and send it via email
-                $otp = random_int(100000,999999);
 
                 try
                 {
-                    //making mail object
-                    $mail = new PHPMailer(true);
-    
-                    $mail->isSMTP();
-                    $mail->SMTPDebug = SMTP::DEBUG_OFF;
-                    $mail->Host = "smtp.gmail.com";
-                    $mail->Port = 465;
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-                    $mail->SMTPAuth = true;
-                    $mail->Username = "bluenotesteam@gmail.com";
-                    $mail->Password = "rkrp xfet gsvi lgtq";
-                    $mail->setFrom("bluenotesteam@gmail.com","Blue Notes");
-                    $mail->addAddress($param_email);
-                    $mail->Subject = "Blue Notes OTP verification";
-                    $mail->Body = "OTP for signing up: ".$otp.". Thank you for choosing Blue Notes.";
-                    
-                    //sending
-                    $mail->send();
+                    //calling helper function to send otp
+                    $otp = sendOTP($param_email, "OTP for signing up: ", ". Thank you for choosing Blue Notes.");
     
                 }
                 catch(Exception $e)
                 {
                     //error while sending mail
                     //sending response back
-                    echo '{"mailServiceDow"n: true}';
+                    echo '{"mailServiceDown": true}';
                     exit;
                 }
                 
