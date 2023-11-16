@@ -67,6 +67,9 @@ function validateSignup(click)
     //checking if valid or not
     if(isValid)
     {
+        //showing loading spinner
+        loadingSpinner.classList.remove("d-none");
+        loadingSpinner.classList.add("d-block");
         //sending ajax request to signup.php
         signupAjaxSend();
         //adding event listener to modal btn for signup otp verification

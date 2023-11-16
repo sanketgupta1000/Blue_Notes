@@ -1,5 +1,8 @@
 //will contain utility functions, such as displaying error/success messages
 
+//getting access of loading spinner
+let loadingSpinner = document.getElementById("loading-spinner");
+
 //error/success messages:
 const badResponse = "Bad response from server. Please try again later";
 const badRequest = "Bad request to server. Please try again later";

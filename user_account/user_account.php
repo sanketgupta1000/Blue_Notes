@@ -13,6 +13,15 @@
     <link rel="stylesheet" href="/blue_notes/mdb/css/mdb.min.css" />
     <!-- favicon -->
     <link rel="shortcut icon" href="/blue_notes/images/favicon.ico" type="image/x-icon">
+
+    <!-- custom css -->
+    <style>
+        #loading-spinner
+        {
+            z-index: 999;
+            background-color: rgb(0 0 0 / 20%);
+        }
+    </style>
 </head>
 <body>
 
@@ -208,7 +217,7 @@
         </section>
     </main>
 
-    <!-- aside for modals -->
+    <!-- aside for modals and spinners -->
     <aside>
 
         <!-- modal for email verification -->
@@ -325,6 +334,23 @@
 
             </div>
 
+        </div>
+
+        <!-- spinner for showing loading -->
+        <div class="
+            vw-100
+            vh-100
+            position-fixed
+            top-0
+            d-flex
+            justify-content-center
+            align-items-center
+            d-none"
+            id="loading-spinner"
+        >
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
 
     </aside>

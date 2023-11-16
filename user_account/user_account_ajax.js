@@ -31,6 +31,9 @@ async function signupAjaxSend()
         if(signupReq.readyState===XMLHttpRequest.DONE)
         {
             //response is ready
+            //hide the loadin spinner
+            loadingSpinner.classList.remove("d-block");
+            loadingSpinner.classList.add("d-none");
     
             if(signupReq.status===200)
             {
