@@ -162,3 +162,71 @@ function signupOTPAjaxSend()
         }
     }
 }
+
+//ajax request sender for login
+async function loginAjaxSend()
+{
+    let email = loginEmail.value;
+    //hashing password
+    let hashpass = await hashPassword(loginPass.value);
+
+    //request object
+    let loginReq = new XMLHttpRequest();
+
+    //setting response handler
+    loginReq.onreadystatechange = loginAjaxHandle;
+
+    //opening the request
+    loginReq.open("POST", "login/login.php");
+
+    //set header
+    loginReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //sending request
+    loginReq.send("email="+email+"&password="+hashpass);
+
+    //response handler for login
+    function loginAjaxHandle()
+    {
+        //for debugging purpose
+        console.log(loginReq.readyState);
+        if(loginReq.readyState===XMLHttpRequest.DONE)
+        {
+            //response is ready
+            //hide the loading spinner
+            loadingSpinner.classList.remove("d-block");
+            loadingSpinner.classList.add("d-none");
+    
+            if(loginReq.status===200)
+            {
+                //good response
+    
+                //getting response object from response json string
+                console.log(loginReq.responseText);                //for debugging purpose
+                let loginResponse = JSON.parse(loginReq.responseText);
+    
+                //now will check for errors on server
+                if(!checkServerErrors(loginResponse))
+                {
+                    //now logical errors
+                    if(loginResponse.validity===true)
+                    {
+                        //everything is good, backend was able to validate email and password, and start the session with appropriate variables
+                        //will redirect to notes home from here
+                        //for now, just a message
+                        displaySuccess("Login Success!");
+                    }
+                    else
+                    {
+                        //invalid login credentials
+                        displayError("Invalid login credentials, please try again");
+                    }
+                }
+            }
+            else
+            {
+                displayError(badResponse);
+            }
+        }
+    }
+}

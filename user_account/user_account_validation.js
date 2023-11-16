@@ -82,6 +82,9 @@ function validateSignup(click)
 //adding event listener to signupbtn
 signupBtn.addEventListener("click", validateSignup);
 
+//client side validation of signup form done
+
+//client side validation of otp modal
 
 //getting access of elements related to otp validation
 let otpModal = new mdb.Modal(document.getElementById("verifyEmailModal"));
@@ -106,6 +109,9 @@ function validateSignupOTP(click)
     }
 }
 
+//client side validation of otp modal done
+
+//client side validation of login form
 
 // getting access of elements related to login
 let loginForm = document.getElementById("loginPane");
@@ -113,38 +119,61 @@ let loginEmail = document.getElementById("loginEmail");
 let loginPass = document.getElementById("loginPass");
 let loginBtn = document.getElementById("loginBtn");
 
-//adding event listener to loginbtn
-loginBtn.addEventListener("click", (click)=>
+//function to validate login form upon click on login button
+function validateLogin(click)
 {
-    //validating email
+    //prevent submit, since dynamic form submission using ajax
+    click.preventDefault();
+    click.stopPropagation();
+
+    //remove earlier messages
+    removeMessages();
+
+    let isValid = true;
+
     if(!loginEmail.checkValidity())
     {
-        //applying mdb class to trigger the feedback
+        //invalid email
+        isValid = false;
+
+        //display message
         loginEmail.classList.remove("is-valid");
         loginEmail.classList.add("is-invalid");
-
-        //preventing submit
-        click.preventDefault();
-        click.stopPropagation();
     }
     else
     {
+        //valid email
         loginEmail.classList.remove("is-invalid");
         loginEmail.classList.add("is-valid");
     }
 
-    //validating password and confirm password
     if(loginPass.value=="")
     {
+        //empty password
+        isValid = false;
+
+        //message
         loginPass.classList.remove("is-valid");
         loginPass.classList.add("is-invalid");
-
-        click.preventDefault();
-        click.stopPropagation();
     }
     else
     {
-        loginPass.classList.add("is-valid");
+        //non-empty password
         loginPass.classList.remove("is-invalid");
+        loginPass.classList.add("is-valid");
     }
-});
+
+    if(isValid)
+    {
+        //valid as per frontend
+        //showing loading spinner
+        loadingSpinner.classList.remove("d-none");
+        loadingSpinner.classList.add("d-block");
+
+        //sending ajax request to backend
+        loginAjaxSend();
+    }
+}
+
+//add event listener
+loginBtn.addEventListener("click", validateLogin);
