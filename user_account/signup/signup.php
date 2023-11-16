@@ -1,7 +1,7 @@
 <?php
 
-    require_once "./../helpers/config.php";
-    require_once "./helpers/helper.php";
+    require_once "./../../helpers/config.php";
+    require_once "./../helpers/helper.php";
 
     if(isset($_POST["email"])&&isset($_POST["password"])&&isset($_POST["confirmpassword"]))
     {

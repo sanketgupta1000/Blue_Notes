@@ -16,7 +16,7 @@ async function signupAjaxSend()
     signupReq.onreadystatechange = signupAjaxHandle;
 
     //opening the request
-    signupReq.open("POST", "signup.php");
+    signupReq.open("POST", "signup/signup.php");
 
     //setting the header
     signupReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -111,7 +111,7 @@ function signupOTPAjaxSend()
     signupOTPReq.onreadystatechange = signupOTPAjaxHandle;
 
     //opening request
-    signupOTPReq.open("POST", "signup_otp.php");
+    signupOTPReq.open("POST", "signup/signup_otp.php");
 
     //setting header
     signupOTPReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

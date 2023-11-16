@@ -12,7 +12,7 @@
     //these paths are w.r.t. the file(s) that will include this file (helper.php)
     //this is because this file won't be executed independently at all
     //helper.php will only be included, and hence, the current working directory is not this helpers folder
-    require './../vendor/autoload.php';
+    require './../../vendor/autoload.php';
 
     //setting accurate time for phpmailer
     date_default_timezone_set("Etc/UTC");   
