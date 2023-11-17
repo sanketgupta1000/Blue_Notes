@@ -1,6 +1,6 @@
 <?php
 
-    require "./../helpers/helper.php";
+    require_once "./../helpers/helper.php";
     require_once "./../../helpers/config.php";
 
     session_start();

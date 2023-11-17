@@ -198,7 +198,7 @@
                                     </div>
 
                                     <div class="col mt-0">
-                                        <button type="submit" class="btn btn-link p-0">Forgot Password?</button>
+                                        <a class="btn btn-tertiary p-0" id="forgotPassBtn">Forgot Password?</a>
                                     </div>
 
                                     <div class="col-12">

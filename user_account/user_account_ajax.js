@@ -125,6 +125,10 @@ function signupOTPAjaxSend()
         if(signupOTPReq.readyState===XMLHttpRequest.DONE)
         {
             //response ready
+            //hiding spinner
+            loadingSpinner.classList.remove("d-block");
+            loadingSpinner.classList.add("d-none");
+
             console.log(signupOTPReq.status);
             if(signupOTPReq.status===200)
             {
@@ -135,7 +139,11 @@ function signupOTPAjaxSend()
                 let signupOTPResp = JSON.parse(signupOTPReq.responseText);
 
                 //checking server errors
-                if(!checkServerErrors(signupOTPResp))
+                if(checkServerErrors(signupOTPResp))
+                {
+                    otpModal.hide();
+                }
+                else
                 {
                     //logical errors
                     if(signupOTPResp.validity===true)
@@ -229,4 +237,136 @@ async function loginAjaxSend()
             }
         }
     }
+}
+
+//ajax request sender for forgot password
+function forgotPassAjaxSend()
+{
+    let email = loginEmail.value;
+
+    //request object
+    let forgotReq = new XMLHttpRequest();
+
+    //setting response handler
+    forgotReq.onreadystatechange = forgotPassAjaxHandle;
+
+    //open the request
+    forgotReq.open("POST", "forgot_password/forgot_password.php");
+
+    //setting header
+    forgotReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //sending request
+    forgotReq.send("email="+email);
+
+    //response handler for forgot password
+    function forgotPassAjaxHandle()
+    {
+        //for debugging
+        console.log(forgotReq.readyState);
+
+        if(forgotReq.readyState===XMLHttpRequest.DONE)
+        {
+            //response received
+            //hiding loading spinner
+            loadingSpinner.classList.remove("d-block");
+            loadingSpinner.classList.add("d-none");
+
+            if(forgotReq.status===200)
+            {
+                //good response
+                console.log(forgotReq.responseText);    //for debugging pusposse
+
+                //getting response object
+                let forgotResponse = JSON.parse(forgotReq.responseText);
+
+                //checking and displaying server errors
+                if(!checkServerErrors(forgotResponse))
+                {
+                    if(forgotResponse.validity===true)
+                    {
+                        //backend was able to validate email from database, and send otp on it
+                        //showing modal for verification
+                        otpField.value="";
+                        otpField.classList.remove("is-invalid");
+                        otpModal.show();
+                    }
+                    else
+                    {
+                        //invalid email or email not registered
+                        loginEmail.classList.remove("is-valid");
+                        loginEmail.classList.add("is-invalid");
+                    }
+                }
+            }
+            else
+            {
+                displayError(badResponse);
+            }
+        }
+    }
+
+}
+
+//ajax request sender for forgot password otp verification
+function forgotPassOTPAjaxSend()
+{
+    let otp = otpField.value;
+
+    //request object
+    let forgotPassOTPReq = new XMLHttpRequest();
+    
+    //setting response handler
+    forgotPassOTPReq.onreadystatechange = forgotPassOTPAjaxHandle;
+
+    //open request
+    forgotPassOTPReq.open("POST", "forgot_password/forgot_password_otp.php");
+
+    //setting header
+    forgotPassOTPReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //sending
+    forgotPassOTPReq.send("otp="+otp);
+
+    //response handler
+    function forgotPassOTPAjaxHandle()
+    {
+        console.log(forgotPassOTPReq.readyState);   //for debugging
+
+        if(forgotPassOTPReq.readyState===XMLHttpRequest.DONE)
+        {
+            //response received
+            //hiding loading spinner
+            loadingSpinner.classList.remove("d-block");
+            loadingSpinner.classList.add("d-none");
+
+            console.log(forgotPassOTPReq.responseText);     //for debugging
+
+            //getting response object
+            let forgotPassOTPResp = JSON.parse(forgotPassOTPReq.responseText);
+
+            //checking server errors
+            if(checkServerErrors(forgotPassOTPResp))
+            {
+                otpModal.hide();
+            }
+            else
+            {
+                if(forgotPassOTPResp.validity===true)
+                {
+                    //otp verified
+                    //will do something here to let the user reset password
+                    //for now, just a message
+                    displaySuccess("OTP Verified!");
+                    otpModal.hide();
+                }
+                else
+                {
+                    otpModal.show();    //if not already showing
+                    otpField.classList.add("is-invalid");
+                }
+            }
+        }
+    }
+
 }

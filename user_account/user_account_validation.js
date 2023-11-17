@@ -75,7 +75,7 @@ function validateSignup(click)
         //adding event listener to modal btn for signup otp verification
         otpBtn.addEventListener("click", validateSignupOTP);
         //removing event listener for forgot password otp verification (if any)
-        // otpBtn.removeEventListener("click", validateForgotPassOTP);
+        otpBtn.removeEventListener("click", validateForgotPassOTP);
     }
 }
 
@@ -100,10 +100,14 @@ function validateSignupOTP(click)
 
     if(otpField.value=="")
     {
+        otpField.classList.remove("is-valid");
         otpField.classList.add("is-invalid");
     }
     else
     {
+        //showing loading spinner
+        loadingSpinner.classList.remove("d-none");
+        loadingSpinner.classList.add("d-block");
         //now sending ajax request
         signupOTPAjaxSend();
     }
@@ -177,3 +181,70 @@ function validateLogin(click)
 
 //add event listener
 loginBtn.addEventListener("click", validateLogin);
+
+//client side validation of login form done
+
+//now client side validation for forgot password
+let forgotPassBtn = document.getElementById("forgotPassBtn");
+
+//function to validate email for forgot password
+function validateForgotPass(click)
+{
+    //prevent default, as using ajax
+    click.preventDefault();
+    click.stopPropagation();
+
+    //remove messages
+    removeMessages();
+
+    if(loginEmail.checkValidity())
+    {
+        //valid email as per frontend
+        loginEmail.classList.remove("is-invalid");
+        loginEmail.classList.add("is-valid");
+        //showing loading spinner
+        loadingSpinner.classList.remove("d-none");
+        loadingSpinner.classList.add("d-block");
+        //adding event listener to modal submit button
+        otpBtn.addEventListener("click", validateForgotPassOTP);
+        //removing event listener for validate signup otp (if any)
+        otpBtn.removeEventListener("click", validateSignupOTP);
+        //sending request
+        forgotPassAjaxSend();
+    }
+    else
+    {
+        //invalid email
+        loginEmail.classList.remove("is-valid");
+        loginEmail.classList.add("is-invalid");
+    }
+}
+
+//adding event listener
+forgotPassBtn.addEventListener("click", validateForgotPass);
+
+//validation of forgot pass done
+
+//client side validation of modal for forgot pass otp
+function validateForgotPassOTP(click)
+{
+    //prevent default, since using ajax
+    click.preventDefault();
+    click.stopPropagation();
+
+    if(otpField.value=="")
+    {
+        //empty otp field
+        otpField.classList.remove("is-valid");
+        otpField.classList.add("is-invalid");
+    }
+    else
+    {
+        //showing loading spinner
+        loadingSpinner.classList.remove("d-none");
+        loadingSpinner.classList.add("d-block");
+
+        //sending ajax
+        forgotPassOTPAjaxSend();
+    }
+}
