@@ -248,3 +248,18 @@ function validateForgotPassOTP(click)
         forgotPassOTPAjaxSend();
     }
 }
+
+//client side validation of modal for forgot password otp done
+
+//now will do validation of reset password modal
+
+//getting necessary elements
+
+//button to toggle between modals
+let modalToggleBtn = document.getElementById("modalToggleBtn");
+//reset password modal
+let resetPassModal = new mdb.Modal(document.getElementById("resetPassModal"));
+//reset password fields
+let newPass = document.getElementById("newPass");
+let newPassConfirm = document.getElementById("newPassConfirm");
+let resetPassBtn = document.getElementById("resetPassBtn");

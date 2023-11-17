@@ -55,6 +55,10 @@ async function signupAjaxSend()
                         otpField.value = "";
                         otpField.classList.remove("is-invalid");
                         otpModal.show();
+
+                        //setting the toggle (NO) button of confirm modal to this modal
+                        modalToggleBtn.setAttribute("data-mdb-toggle", "modal");
+                        modalToggleBtn.setAttribute("data-mdb-target", "#verifyEmailModal");
                     }
                     else
                     {
@@ -290,6 +294,10 @@ function forgotPassAjaxSend()
                         otpField.value="";
                         otpField.classList.remove("is-invalid");
                         otpModal.show();
+
+                        //setting the toggle (NO) button of confirm modal to this modal
+                        modalToggleBtn.setAttribute("data-mdb-toggle", "modal");
+                        modalToggleBtn.setAttribute("data-mdb-target", "#verifyEmailModal");
                     }
                     else
                     {
@@ -357,8 +365,17 @@ function forgotPassOTPAjaxSend()
                     //otp verified
                     //will do something here to let the user reset password
                     //for now, just a message
-                    displaySuccess("OTP Verified!");
+                    // displaySuccess("OTP Verified!");
                     otpModal.hide();
+                    newPass.value="";
+                    newPassConfirm.value="";
+                    newPass.classList.remove("is-valid", "is-invalid");
+                    newPassConfirm.classList.remove("is-valid", "is-invalid");
+                    resetPassModal.show();
+
+                    //setting the toggle (NO) button of confirm modal to this modal
+                    modalToggleBtn.setAttribute("data-mdb-toggle", "modal");
+                    modalToggleBtn.setAttribute("data-mdb-target", "#resetPassModal");
                 }
                 else
                 {

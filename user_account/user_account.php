@@ -284,7 +284,7 @@
 
         </div>
 
-        <!-- modal for confirm cancel email verification -->
+        <!-- modal for confirm cancel -->
         <div
             class="modal fade"
             id="confirmCancelModal"
@@ -313,6 +313,7 @@
                         <!-- button which toggles between the two modal -->
                         <button
                             class="btn btn-outline-primary"
+                            id="modalToggleBtn"
                             data-mdb-ripple-color="dark"
                             data-mdb-dismiss="modal"
                             data-mdb-toggle="modal"
@@ -327,6 +328,70 @@
                         >
                             Yes
                         </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- modal for reset password -->
+        <div
+            class="modal fade"
+            id="resetPassModal"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-hidden="true"
+            aria-labelledby="resetPassModalTitle"
+        >
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <div class="modal-title" id="resetPassModalTitle">
+                            Reset Password
+                        </div>
+
+                        <!-- button to toggle between this and confirm cancel modal -->
+                        <button class="btn-close" data-mdb-dismiss="modal" data-mdb-toggle="modal" data-mdb-target="#confirmCancelModal" aria-label="Close"></button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form class="container" id="resetPassForm">
+
+                            <div class="row gy-3 text-center">
+
+                                <div class="col-12">
+                                    <div class="form-outline">
+                                        <input type="text" class="form-control" id="newPass">
+                                        <label for="newPass" class="form-label">New Password</label>
+                                        <div class="invalid-feedback" id="emptyNewPass">Please enter new password</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-outline">
+                                        <input type="text" class="form-control" id="newPassConfirm">
+                                        <label for="newPassConfirm" class="form-label">Confirm New Password</label>
+                                        <div class="invalid-feedback" id="emptyNewPass">Please enter valid confirm password</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <input type="submit" value="Confirm" class="btn btn-primary" id="resetPassBtn">
+                                </div>
+
+                            </div>
+
+                        </form>
 
                     </div>
 
