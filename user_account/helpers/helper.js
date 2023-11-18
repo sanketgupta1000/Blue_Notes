@@ -10,6 +10,7 @@ const badDatabaseConn = "Bad database connection. Please try again later";
 const mailServiceDown = "Mail service is down. Please try again later";
 const emailTaken = "Email is already registered. Try logging in";
 const accountCreated = "Your account has been created. You can now log in";
+const resetPassDone = "Your password has been reset";
 
 let accountTabs = document.getElementById("accountTabs");
 
@@ -27,6 +28,9 @@ function removeMessages()
     signupConfirmPass.classList.remove("is-valid", "is-invalid");
     loginEmail.classList.remove("is-valid", "is-invalid");
     loginPass.classList.remove("is-valid", "is-invalid");
+    otpField.classList.remove("is-invalid");
+    newPass.classList.remove("is-valid", "is-invalid");
+    newPassConfirm.classList.remove("is-valid", "is-invalid");
 }
 
 //function to show error

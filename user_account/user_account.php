@@ -18,7 +18,7 @@
     <style>
         #loading-spinner
         {
-            z-index: 999;
+            z-index: 1056;
             background-color: rgb(0 0 0 / 20%);
         }
     </style>

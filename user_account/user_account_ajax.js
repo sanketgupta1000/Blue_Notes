@@ -387,3 +387,68 @@ function forgotPassOTPAjaxSend()
     }
 
 }
+
+//ajax request sender for reset password
+async function resetPassAjaxSend()
+{
+    //hashing passwords
+    let newpassword = await hashPassword(newPass.value);
+    let confirmpassword = await hashPassword(newPassConfirm.value);
+
+    //request object
+    let resetPassReq = new XMLHttpRequest();
+
+    //set response handler
+    resetPassReq.onreadystatechange = resetPassAjaxHandle;
+
+    //open the request
+    resetPassReq.open("POST", "forgot_password/reset_password.php");
+
+    //set the header
+    resetPassReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //sending request
+    resetPassReq.send("newpassword="+newpassword+"&confirmpassword="+confirmpassword);
+
+    //response handler
+    function resetPassAjaxHandle()
+    {
+        console.log(resetPassReq.readyState);   //for debugging
+
+        if(resetPassReq.readyState===XMLHttpRequest.DONE)
+        {
+            //response received
+            //hiding the loading spinner
+            loadingSpinner.classList.remove("d-block");
+            loadingSpinner.classList.add("d-none");
+
+            console.log(resetPassReq.responseText);     //for debugging
+
+            //getting response object
+            let resetPassResp = JSON.parse(resetPassReq.responseText);
+
+            //checking server errors
+            if(checkServerErrors(resetPassResp))
+            {
+                //if any server errors displayed, hide modal
+                resetPassModal.hide();
+            }
+            else
+            {
+                if(resetPassResp.validity===true)
+                {
+                    //backend was able to reset password
+                    //hide modal and show success
+                    resetPassModal.hide();
+                    displaySuccess(resetPassDone);
+                }
+                else
+                {
+                    //reset password confirm does not match as per backend
+                    newPassConfirm.classList.remove("is-valid");
+                    newPassConfirm.classList.add("is-invalid");
+                }
+            }
+        }
+    }
+}

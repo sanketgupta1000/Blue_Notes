@@ -11,6 +11,7 @@
         if(otpVerify($_POST["otp"]))
         {
             //verified
+            $_SESSION["forgotPassOTPVerified"] = true;
             echo '{"validity": true}';
         }
         else

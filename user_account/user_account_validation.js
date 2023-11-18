@@ -28,12 +28,10 @@ function validateSignup(click)
         isValid = false;
 
         //applying mdb class to trigger the feedback
-        signupEmail.classList.remove("is-valid");
         signupEmail.classList.add("is-invalid");
     }
     else
     {
-        signupEmail.classList.remove("is-invalid");
         signupEmail.classList.add("is-valid");
     }
 
@@ -42,25 +40,21 @@ function validateSignup(click)
     {
         isValid = false;
 
-        signupPass.classList.remove("is-valid");
         signupPass.classList.add("is-invalid");
     }
     else
     {
         signupPass.classList.add("is-valid");
-        signupPass.classList.remove("is-invalid");
     }
 
     if((signupConfirmPass.value=="")||((signupPass.value!="")&&(signupPass.value!=signupConfirmPass.value)))
     {
         isValid = false;
 
-        signupConfirmPass.classList.remove("is-valid");
         signupConfirmPass.classList.add("is-invalid");
     }
     else
     {
-        signupConfirmPass.classList.remove("is-invalid");
         signupConfirmPass.classList.add("is-valid");
     }
 
@@ -141,13 +135,11 @@ function validateLogin(click)
         isValid = false;
 
         //display message
-        loginEmail.classList.remove("is-valid");
         loginEmail.classList.add("is-invalid");
     }
     else
     {
         //valid email
-        loginEmail.classList.remove("is-invalid");
         loginEmail.classList.add("is-valid");
     }
 
@@ -157,13 +149,11 @@ function validateLogin(click)
         isValid = false;
 
         //message
-        loginPass.classList.remove("is-valid");
         loginPass.classList.add("is-invalid");
     }
     else
     {
         //non-empty password
-        loginPass.classList.remove("is-invalid");
         loginPass.classList.add("is-valid");
     }
 
@@ -200,7 +190,6 @@ function validateForgotPass(click)
     if(loginEmail.checkValidity())
     {
         //valid email as per frontend
-        loginEmail.classList.remove("is-invalid");
         loginEmail.classList.add("is-valid");
         //showing loading spinner
         loadingSpinner.classList.remove("d-none");
@@ -215,7 +204,6 @@ function validateForgotPass(click)
     else
     {
         //invalid email
-        loginEmail.classList.remove("is-valid");
         loginEmail.classList.add("is-invalid");
     }
 }
@@ -263,3 +251,50 @@ let resetPassModal = new mdb.Modal(document.getElementById("resetPassModal"));
 let newPass = document.getElementById("newPass");
 let newPassConfirm = document.getElementById("newPassConfirm");
 let resetPassBtn = document.getElementById("resetPassBtn");
+
+//function to validate reset password form, and send ajax request if valid
+function validateResetPass(click)
+{
+    click.preventDefault();
+    click.stopPropagation();
+
+    removeMessages();
+
+    let isValid = true;
+
+    if(newPass.value=="")
+    {
+        //empty new password
+        isValid = false;
+        newPass.classList.add("is-invalid");
+    }
+    else
+    {
+        newPass.classList.remove("is-invalid");
+    }
+
+    if((newPassConfirm.value=="")||((newPass.value!="")&&(newPass.value!=newPassConfirm.value)))
+    {
+        //invalid new password confirm
+        isValid = false;
+        newPassConfirm.classList.add("is-invalid");
+    }
+    else
+    {
+        newPassConfirm.classList.add("is-valid");
+    }
+
+    if(isValid)
+    {
+        //show the loading spinner
+        loadingSpinner.classList.remove("d-none");
+        loadingSpinner.classList.add("d-block");
+
+        //sending ajax request
+        resetPassAjaxSend();
+    }
+    
+}
+
+//adding event listener
+resetPassBtn.addEventListener("click", validateResetPass);
