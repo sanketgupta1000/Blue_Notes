@@ -371,7 +371,7 @@
 
                                 <div class="col-12">
                                     <div class="form-outline">
-                                        <input type="text" class="form-control" id="newPass">
+                                        <input type="password" class="form-control" id="newPass">
                                         <label for="newPass" class="form-label">New Password</label>
                                         <div class="invalid-feedback" id="emptyNewPass">Please enter new password</div>
                                     </div>
@@ -379,7 +379,7 @@
 
                                 <div class="col-12">
                                     <div class="form-outline">
-                                        <input type="text" class="form-control" id="newPassConfirm">
+                                        <input type="password" class="form-control" id="newPassConfirm">
                                         <label for="newPassConfirm" class="form-label">Confirm New Password</label>
                                         <div class="invalid-feedback" id="emptyNewPass">Please enter valid confirm password</div>
                                     </div>
