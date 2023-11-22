@@ -79,6 +79,8 @@
         {
             //valid
             //will set session variables here
+            session_start();
+            $_SESSION["user_id"] = $arr['user_id'];
             echo json_encode($response);
             exit;
         }

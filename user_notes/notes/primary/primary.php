@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    require_once "./../../../helpers/helper.php";
+    sessionExpCheck();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

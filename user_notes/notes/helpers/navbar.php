@@ -51,7 +51,7 @@
             </div>
 
             <!-- logout icon -->
-            <a href="" class="me-3">
+            <a href="/blue_notes/user_account/logout/logout.php" class="me-3">
                 <i class="fas fa-right-from-bracket fa-lg text-secondary"></i>
             </a>
 

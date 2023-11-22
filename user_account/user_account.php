@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    require_once "./../helpers/helper.php";
+    sessionRunningCheck();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,6 +116,23 @@
                             </li>
 
                         </ul>
+
+                        <?php
+                            if(isset($_GET["sessExp"]))
+                            {
+                                echo '<div class="alert alert-danger alert-dismissible text-center fade show"
+                                            id="error"
+                                        >
+                                            Session Expired. Please login
+                                            <button
+                                                class="btn-close"
+                                                data-mdb-dismiss="alert"
+                                                aria-label="Close"
+                                            >
+                                            </button>
+                                        </div>';
+                            }
+                        ?>
 
                         <!-- tab content -->
                         <div class="tab-content">

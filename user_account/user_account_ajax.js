@@ -225,8 +225,7 @@ async function loginAjaxSend()
                     {
                         //everything is good, backend was able to validate email and password, and start the session with appropriate variables
                         //will redirect to notes home from here
-                        //for now, just a message
-                        displaySuccess("Login Success!");
+                        window.location.href = "/blue_notes/user_notes/notes/primary/primary.php";
                     }
                     else
                     {
