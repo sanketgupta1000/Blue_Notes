@@ -57,56 +57,9 @@ makeNoteDiv.addEventListener("click", initiateNewNote);
 //now implementing the functionality that notes are loaded from database dynamically on user scrolling the page
 let limit = 10;
 let offset = 0;
-function loadNotesOnScroll(scroll)
-{
-    //checking if user has scrolled to bottom
-    if((window.scrollY+window.innerHeight)>=(document.body.scrollHeight-25))
-    {
-        loadNotes();
-    }
-}
 
 //adding event listener to scroll event of window
-window.addEventListener("scroll", loadNotesOnScroll);
-
-function loadNotes()
-{
-    //making ajax request
-    fetch("view.php",
-    {
-        method: "POST",
-        headers: 
-        {
-            "Content-type": "application/x-www-form-urlencoded"
-        },
-        body: "limit="+limit+"&offset="+offset
-    })
-    .then((response)=>
-    {
-        if(!response.ok)
-        {
-            throw new Error("Error loading notes: "+response.status);
-        }
-        return response.json();
-    })
-    .then((notesArr)=>
-    {
-        console.log(notesArr);
-        //now appending the notes in dom
-        for(let i = 0; i<notesArr.length; i++)
-        {
-            //creating note object
-            let newnote = new Note(notesArr[i].note_id, notesArr[i].note_title, notesArr[i].note_content, 0, 0, 0, edit_note_modal, notecontainerrow);
-            newnote.show();
-        }
-        //incrementing offset, so that next time, other notes are loaded
-        offset+=limit;
-    })
-    .catch((error)=>
-    {
-        console.log(error);
-    });
-}
+window.addEventListener("scroll", loadNotesOnScrollHelper("view.php"));
 
 //initially calling load notes
-loadNotes();
+loadNotes("view.php");

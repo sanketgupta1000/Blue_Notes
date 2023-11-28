@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once "./../../../helpers/helper.php";
+    require_once "./../../helpers/helper.php";
     sessionExpCheck();
 ?>
 
@@ -32,7 +32,7 @@
     <header>
         <!-- navbar -->
         <?php
-            include "./../helpers/navbar.php";
+            include "./../helpers/navbar.html";
         ?>
     </header>
 
@@ -59,47 +59,8 @@
     <!-- making a modal for allowing editing of note -->
     <div class="aside">
 
-        <div
-            class="modal fade"
-            id="editNoteModal"
-            data-mdb-backdrop="static"
-            data-mdb-keyboard="false"
-            tabindex="-1"
-            aria-hidden="true"
-            aria-labelledby="#editNoteModalTitle"
-        >
-
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <!-- title of note -->
-                        <h5 class="modal-title" contenteditable="true" role="textbox"></h5>
-
-                    </div>
-                    <!-- content of note -->
-                    <div class="modal-body" contenteditable="true" role="textbox">
-
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <!-- delete btn -->
-                        <button class="btn btn-floating ripple btn-light me-auto" data-mdb-ripple-color="dark" title="Delete">
-                            <i class="fas fa-trash fa-lg"></i>
-                        </button>
-                        <!-- close btn -->
-                        <button class="btn btn-secondary ripple close-btn" data-mdb-dismiss="modal" data-mdb-ripple-color="primary">Close</button>
-                       
-
-                    </div>
-                    
-                </div>
-
-            </div>
-
-        </div>
+        <!-- including modal -->
+        <?php include "./../helpers/modal.html"; ?>
 
     </div>
 
@@ -109,7 +70,7 @@
     <!-- masonry -->
     <script src="/blue_notes/masonry/masonry.pkgd.min.js"></script>
     <!-- custom script -->
-    <script src="/blue_notes/user_notes/notes/helpers/helper.js"></script>
+    <script src="/blue_notes/user_notes/helpers/helper.js"></script>
     <script>
         // showing primary as active
         showActive("primaryLink");
