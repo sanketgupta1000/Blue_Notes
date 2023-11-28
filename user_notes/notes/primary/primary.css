@@ -1,0 +1,35 @@
+ /* for limiting the note content display to a fixed number of lines */
+ .card-text
+ {
+     display: -webkit-box;
+     -webkit-line-clamp: 10;
+     -webkit-box-orient: vertical;
+     overflow: hidden;
+ }
+
+ .card:hover
+ {
+     cursor: pointer;
+ }
+
+ /* hiding the icons by default */
+ i.note-card-icon
+ {
+     visibility: hidden;
+ }
+
+ /* icons visible only when we hover on note */
+ .card:hover>.card-body>.d-flex>.btn>i
+ {
+     visibility: visible;
+ }
+
+ #makeNoteDiv
+{
+    width: 60%;
+}
+
+#makeNoteDiv:hover
+{
+    cursor:text;
+}
