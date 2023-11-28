@@ -21,7 +21,7 @@
     <!-- favicon -->
     <link rel="shortcut icon" href="/blue_notes/images/favicon.ico" type="image/x-icon">
     <!-- navbar css -->
-    <link rel="stylesheet" href="/blue_notes/user_notes/notes/helpers/navbar.css">
+    <link rel="stylesheet" href="/blue_notes/user_notes/helpers/navbar.css">
 
     <!-- custom css -->
     <link rel="stylesheet" href="primary.css">
@@ -75,7 +75,7 @@
         // showing primary as active
         showActive("primaryLink");
     </script>
-    <script src="classes.js"></script>
+    <script src="/blue_notes/user_notes/helpers/classes.js"></script>
     <script src="primary.js"></script>
 </body>
 

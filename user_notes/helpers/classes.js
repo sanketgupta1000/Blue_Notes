@@ -137,7 +137,7 @@ class EditNoteModal
             //will make ajax request only when editing an existing note, or a newly created note
             if((!isCreatingNewNote)||isCreated)
             {
-                fetch("/blue_notes/user_notes/notes/helpers/update_title.php", 
+                fetch("/blue_notes/user_notes/helpers/update_title.php", 
                 {
                     method: "POST",
                     headers: 
@@ -172,7 +172,7 @@ class EditNoteModal
             //will make ajax request only when editing an existing note, or a newly created note
             if((!isCreatingNewNote)||isCreated)
             {
-                fetch("/blue_notes/user_notes/notes/helpers/update_content.php",
+                fetch("/blue_notes/user_notes/helpers/update_content.php",
                 {
                     method: "POST",
                     headers: 

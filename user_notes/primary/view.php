@@ -1,9 +1,9 @@
 <?php
     //will respond to ajax call to load notes here
 
-    require_once "./../../../helpers/config.php";
+    require_once "./../../helpers/config.php";
     session_start();
-    require_once "./../../../helpers/helper.php";
+    require_once "./../../helpers/helper.php";
     sessionExpCheck();
 
     if(isset($_POST["limit"])&&isset($_POST["offset"]))

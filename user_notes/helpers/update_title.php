@@ -2,9 +2,9 @@
 
     //will handle ajax requests for updating note title here
 
-    require_once "./../../../helpers/config.php";
+    require_once "./../../helpers/config.php";
     session_start();
-    require_once "./../../../helpers/helper.php";
+    require_once "./../../helpers/helper.php";
     sessionExpCheck();
 
     if(isset($_POST["note_id"])&&isset($_POST["title"]))

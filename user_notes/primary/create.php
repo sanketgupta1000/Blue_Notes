@@ -2,9 +2,9 @@
 
     //this page will create a new note for the current user and echo the note id as json
 
-    require_once "./../../../helpers/config.php";
+    require_once "./../../helpers/config.php";
     session_start();
-    require_once "./../../../helpers/helper.php";
+    require_once "./../../helpers/helper.php";
     sessionExpCheck();
 
     //query string
