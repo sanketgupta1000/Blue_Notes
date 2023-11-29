@@ -79,6 +79,7 @@
     </script>
     <script src="/blue_notes/user_notes/helpers/classes.js"></script>
     <script src="primary.js"></script>
+    <script src="/blue_notes/user_notes/helpers/modal_edit.js"></script>
 </body>
 
 </html>
