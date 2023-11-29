@@ -23,7 +23,6 @@ function loadNotesOnScrollHelper(path)
 //load notes function
 function loadNotes(path)
 {
-    //making ajax request
     fetch(path,
     {
         method: "POST",
@@ -48,7 +47,7 @@ function loadNotes(path)
         for(let i = 0; i<notesArr.length; i++)
         {
             //creating note object
-            let newnote = new Note(notesArr[i].note_id, notesArr[i].note_title, notesArr[i].note_content, 0, 0, 0, edit_note_modal, notecontainerrow);
+            let newnote = new Note(notesArr[i].note_id, notesArr[i].note_title, notesArr[i].note_content, notesArr[i].is_pinned, notesArr[i].is_archived, notesArr[i].is_binned, edit_note_modal, masonry);
             newnote.show();
         }
         //incrementing offset, so that next time, other notes are loaded

@@ -5,6 +5,9 @@ let edit_note_modal = new EditNoteModal(document.getElementById("editNoteModal")
 
 let notecontainerrow = document.getElementById("noteContainerRow");
 
+//for masonry
+let masonry = new Masonry(notecontainerrow);
+
 //first implementing create new note functionality
 let makeNoteDiv = document.getElementById("makeNoteDiv");
 let isCreatingNewNote = false;
@@ -41,7 +44,7 @@ function initiateNewNote()
     });
 
     //creating new note object
-    let newnote = new Note("", "", "", 0, 0, 0, edit_note_modal, notecontainerrow);
+    let newnote = new Note("", "", "", 0, 0, 0, edit_note_modal, masonry);
 
     //updating modal for it
     edit_note_modal.updateContent(newnote);
@@ -63,3 +66,6 @@ window.addEventListener("scroll", loadNotesOnScrollHelper("view.php"));
 
 //initially calling load notes
 loadNotes("view.php");
+
+//layout for the first time, maybe some bug in masonry. It does not nicely layout dynamically added items first time
+masonry.once('layoutComplete', ()=>{masonry.layout(); console.log("Layout for first time, maybe some bug in masonry??");});

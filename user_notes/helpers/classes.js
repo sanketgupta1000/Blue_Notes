@@ -2,7 +2,7 @@
 
 class Note
 {
-    constructor(noteid, notetitle, notecontent, ispinned, isarchived, isbinned, notemodal, notecontainerrow)
+    constructor(noteid, notetitle, notecontent, ispinned, isarchived, isbinned, notemodal, masonry)
     {
         //data members
         this.note_id = noteid;
@@ -12,7 +12,8 @@ class Note
         this.is_archived = isarchived;
         this.is_binned = isbinned;
         this.note_modal = notemodal;
-        this.note_container_row = notecontainerrow;
+        this.masonry = masonry;
+        this.note_container_row = masonry.element;
 
         //card element for displaying note
         this.note_col = document.createElement("div");
@@ -22,7 +23,7 @@ class Note
         this.note_card_body = document.createElement("div");
         this.note_card_body.classList.add("card-body", "p-3");
         this.note_title_container = document.createElement("div");
-        this.note_title_container.classList.add("d-flex", "justify-content-between", "align-items-end");
+        this.note_title_container.classList.add("d-flex", "justify-content-between", "align-items-start");
         this.note_card_title = document.createElement("h5");
         this.note_card_title.classList.add("card-title");
         this.note_card_text = document.createElement("p");
@@ -83,7 +84,18 @@ class Note
     //method to display the card
     show()
     {
-        this.note_container_row.appendChild(this.note_col);
+        if(arguments.length==1)
+        {
+            this.note_container_row.prepend(this.note_col);
+            this.masonry.prepended(this.note_col);
+            // this.masonry.layout();
+        }
+        else
+        {
+            this.note_container_row.appendChild(this.note_col);
+            this.masonry.appended(this.note_col);
+            // this.masonry.layout();
+        }
     }
 }
 
@@ -211,7 +223,7 @@ class EditNoteModal
             //showing the note in case of newly created note
             if(isCreatingNewNote)
             {
-                this.note.show();
+                this.note.show("start");
                 isCreatingNewNote = false;
             }
         });
