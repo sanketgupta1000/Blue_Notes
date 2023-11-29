@@ -13,13 +13,13 @@
  }
 
  /* hiding the icons by default */
- i.note-card-icon
+ .note-card-icon
  {
      visibility: hidden;
  }
 
  /* icons visible only when we hover on note */
- .card:hover>.card-body>.d-flex>.btn>i
+ .card:hover>.card-body>.d-flex>.btn>.note-card-icon
  {
      visibility: visible;
  }
@@ -32,4 +32,15 @@
 #makeNoteDiv:hover
 {
     cursor:text;
+}
+
+/* css related to icons */
+.outlined-icon
+{
+    font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 20;
+}
+
+.filled-icon
+{
+    font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 20;
 }

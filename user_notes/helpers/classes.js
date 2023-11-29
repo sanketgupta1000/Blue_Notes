@@ -36,30 +36,31 @@ class Note
             //show the pin icon
             if(this.is_pinned)
             {
-                (new NoteIcon(this, "note-card-icon fas fa-thumbtack fa-lg", "Unpin", this.note_title_container)).show();
+                (new NoteIcon(this, "note-card-icon material-symbols-outlined filled-icon", "Unpin", "push_pin", this.note_title_container)).show();
             }
             else
             {
-                (new NoteIcon(this, "note-card-icon fas fa-thumbtack fa-lg", "Pin", this.note_title_container)).show();
+                (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Pin", "push_pin", this.note_title_container)).show();
             }
         }
         //showing the archive icon
         if(this.is_archived)
         {
-            (new NoteIcon(this, "note-card-icon fas fa-box-archive fa-lg", "Unarchive", this.note_card_footer)).show();
+            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Unarchive", "unarchive", this.note_card_footer)).show();
         }
         else
         {
-            (new NoteIcon(this, "note-card-icon fas fa-box-archive fa-lg", "Archive", this.note_card_footer)).show();
+            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Archive", "archive", this.note_card_footer)).show();
         }
         //showing the bin icon
         if(this.is_binned)
         {
-            (new NoteIcon(this, "note-card-icon fas fa-trash-arrow-up fa-lg", "Restore", this.note_card_footer)).show();
+            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Delete forever", "delete_forever", this.note_card_footer)).show();
+            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Restore", "remove_from_trash", this.note_card_footer)).show();
         }
         else
         {
-            (new NoteIcon(this, "note-card-icon fas fa-trash fa-lg", "Delete", this.note_card_footer)).show();
+            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Delete", "delete", this.note_card_footer)).show();
         }
         this.note_card_body.append(this.note_title_container, this.note_card_text, this.note_card_footer);
         this.note_card.appendChild(this.note_card_body);
@@ -102,7 +103,7 @@ class Note
 //class for icons related to notes such as pin, unpin, archive, etc.
 class NoteIcon
 {
-    constructor(note, iconclasses, tooltip, iconcontainer)
+    constructor(note, iconclasses, tooltip, iconcontent, iconcontainer)
     {
         //data members
         this.note = note;
@@ -117,8 +118,9 @@ class NoteIcon
         this.button_element.setAttribute("data-mdb-ripple-color", "dark");
 
         //element for icon
-        this.icon_element = document.createElement("i");
+        this.icon_element = document.createElement("span");
         this.icon_element.classList = this.icon_classes;
+        this.icon_element.innerText = iconcontent;
 
         //placing icon inside button
         this.button_element.appendChild(this.icon_element);
@@ -143,90 +145,7 @@ class EditNoteModal
         this.modal_body_element = modal.querySelector(".modal-body");
         this.modal_close_btn = modal.querySelector(".close-btn");
 
-        //adding event listener on modal title element to update title as soon as user inputs
-        this.modal_title_element.addEventListener("input", (input)=>
-        {
-            //will make ajax request only when editing an existing note, or a newly created note
-            if((!isCreatingNewNote)||isCreated)
-            {
-                fetch("/blue_notes/user_notes/helpers/update_title.php", 
-                {
-                    method: "POST",
-                    headers: 
-                    {
-                        "Content-type": "application/x-www-form-urlencoded"
-                    },
-                    body: "note_id="+this.note.note_id+"&title="+this.modal_title_element.innerText
-                })
-                .then((response)=>
-                {
-                    if(!(response.ok))
-                    {
-                        console.log(response.status);
-                        throw new Error("Error updating title: "+response.status);
-                    }
-                    return response.json();
-                })
-                .then((jsonObj)=>
-                {
-                    console.log(jsonObj);
-                })
-                .catch((error)=>
-                {
-                    console.log(error);
-                });
-            }
-        });
-
-        //adding event listener on modal body element to update content as soon as user inputs
-        this.modal_body_element.addEventListener("input", (input)=>
-        {
-            //will make ajax request only when editing an existing note, or a newly created note
-            if((!isCreatingNewNote)||isCreated)
-            {
-                fetch("/blue_notes/user_notes/helpers/update_content.php",
-                {
-                    method: "POST",
-                    headers: 
-                    {
-                        "Content-type": "application/x-www-form-urlencoded"
-                    },
-                    body: "note_id="+this.note.note_id+"&content="+this.modal_body_element.innerText
-                })
-                .then((response)=>
-                {
-                    if(!(response.ok))
-                    {
-                        console.log(response.status);
-                        throw new Error("Error updating content: "+response.status);
-                    }
-                    return response.json();
-                })
-                .then((jsonObj)=>
-                {
-                    console.log(jsonObj);
-                })
-                .catch((error)=>
-                {
-                    console.log(error);
-                });
-            }
-        });
-
-        //adding event listener to close button of modal, to updat actual note on frontend when user clicks it
-        this.modal_close_btn.addEventListener("click", (click)=>
-        {
-            //updating the note on screen
-            this.note_title_element.innerText = this.modal_title_element.innerText;
-            this.note_text_element.innerText = this.modal_body_element.innerText;
-
-            //showing the note in case of newly created note
-            if(isCreatingNewNote)
-            {
-                this.note.show("start");
-                isCreatingNewNote = false;
-            }
-        });
+        
 
     }
 
