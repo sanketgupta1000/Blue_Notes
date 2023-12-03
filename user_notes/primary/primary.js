@@ -3,10 +3,17 @@
 //getting acces of edit note modal
 let edit_note_modal = new EditNoteModal(document.getElementById("editNoteModal"));
 
-let notecontainerrow = document.getElementById("noteContainerRow");
-
 //for masonry
-let masonry = new Masonry(notecontainerrow);
+let pinnedMasonry = new Masonry(document.getElementById("pinnedNotesContainerRow"), 
+    {
+        itemSelector: '.brick',
+        percentPosition: true
+    });
+let unpinnedMasonry = new Masonry(document.getElementById("unpinnedNotesContainerRow"), 
+    {
+        itemSelector: '.brick',
+        percentPosition: true
+    });
 
 //first implementing create new note functionality
 let makeNoteDiv = document.getElementById("makeNoteDiv");
@@ -44,7 +51,7 @@ function initiateNewNote()
     });
 
     //creating new note object
-    let newnote = new Note("", "", "", 0, 0, 0, edit_note_modal, masonry);
+    let newnote = new Note("", "", "", 0, 0, 0, edit_note_modal, unpinnedMasonry);
 
     //updating modal for it
     edit_note_modal.updateContent(newnote);
@@ -58,14 +65,75 @@ function initiateNewNote()
 makeNoteDiv.addEventListener("click", initiateNewNote);
 
 //now implementing the functionality that notes are loaded from database dynamically on user scrolling the page
-let limit = 10;
+let limit = 20;
 let offset = 0;
+let isLoading = false;
+//function to load pinned notes from database
+function loadPinnedNotes(scroll)
+{
+    if(isNearBottom()&&(!isLoading))
+    {
+        //user is near bottom, as well as no notes are already loading
+        //so fetch notes
+        isLoading = true;
+        //making ajax request
+        fetch("view_pinned.php",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-type": "application/x-www-form-urlencoded"
+            },
+            body: "limit="+limit+"&offset="+offset
+        })
+        .then((response)=>
+        {
+            if(!(response.ok))
+            {
+                throw new Error("Error fetching pinned notes: "+response.status);
+            }
+            return response.json();
+        })
+        .then((notesArr)=>
+        {
+            if(notesArr.length<limit)
+            {
+                //after this, there are no more pinned notes
+                //so remove this event listener and add unpinned notes event listener
+                //also reset offset
+                offset = 0;
+                window.removeEventListener("scroll", loadPinnedNotes);
+                window.addEventListener("scroll", loadNotesOnScrollHelper("view_unpinned.php", unpinnedMasonry));
+                loadNotesOnScrollHelper("view_unpinned.php", unpinnedMasonry)();
+                unpinnedMasonry.once("layoutComplete", ()=>{unpinnedMasonry.layout();});
+            }
+            else
+            {
+                //there may be more pinned notes after this
+                offset+=limit;
+            }
+
+            //show the fetched notes
+            for(n of notesArr)
+            {
+                let pinnednote = new Note(n.note_id, n.note_title, n.note_content, n.is_pinned, n.is_archived, n.is_binned, edit_note_modal, pinnedMasonry);
+                pinnednote.show();
+            }
+
+            isLoading = false;
+        })
+        .catch((error)=>
+        {
+            console.log(error);
+        });
+    }
+}
 
 //adding event listener to scroll event of window
-window.addEventListener("scroll", loadNotesOnScrollHelper("view.php"));
+window.addEventListener("scroll", loadPinnedNotes);
 
 //initially calling load notes
-loadNotes("view.php");
+loadPinnedNotes();
 
 //layout for the first time, maybe some bug in masonry. It does not nicely layout dynamically added items first time
-masonry.once('layoutComplete', ()=>{masonry.layout(); console.log("Layout for first time, maybe some bug in masonry??");});
+pinnedMasonry.once('layoutComplete', ()=>{pinnedMasonry.layout(); console.log("Layout for first time, maybe some bug in masonry??");});

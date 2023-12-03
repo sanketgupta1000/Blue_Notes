@@ -17,50 +17,50 @@ class Note
 
         //card element for displaying note
         this.note_col = document.createElement("div");
-        this.note_col.classList.add("col-12", "col-md-6", "col-lg-4", "col-xl-3", "col-xxl-2");
+        this.note_col.classList.add("col-12", "col-md-6", "col-lg-4", "col-xl-3", "col-xxl-2", "brick");
         this.note_card = document.createElement("div");
         this.note_card.classList.add("card");
         this.note_card_body = document.createElement("div");
         this.note_card_body.classList.add("card-body", "p-3");
         this.note_title_container = document.createElement("div");
-        this.note_title_container.classList.add("d-flex", "justify-content-between", "align-items-start");
+        this.note_title_container.classList.add("d-flex");
         this.note_card_title = document.createElement("h5");
-        this.note_card_title.classList.add("card-title");
+        this.note_card_title.classList.add("card-title", "me-auto");
         this.note_card_text = document.createElement("p");
         this.note_card_text.classList.add("card-text");
         this.note_card_footer = document.createElement("div");
-        this.note_card_footer.classList.add("d-flex", 'justify-content-between');
+        this.note_card_footer.classList.add("d-flex");
         this.note_title_container.append(this.note_card_title);
         if((!this.is_binned)&&(!this.is_archived))
         {
             //show the pin icon
             if(this.is_pinned)
             {
-                (new NoteIcon(this, "note-card-icon material-symbols-outlined filled-icon", "Unpin", "push_pin", this.note_title_container)).show();
+                (new NoteIcon(this, filledIconClasses, "", unpinTooltip, "push_pin", this.note_title_container, unpinPath)).show();
             }
             else
             {
-                (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Pin", "push_pin", this.note_title_container)).show();
+                (new NoteIcon(this, outlinedIconClasses, "", pinTooltip, "push_pin", this.note_title_container, pinPath)).show();
             }
         }
         //showing the archive icon
         if(this.is_archived)
         {
-            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Unarchive", "unarchive", this.note_card_footer)).show();
+            (new NoteIcon(this, outlinedIconClasses, "me-auto", unarchiveTooltip, "unarchive", this.note_card_footer, unarchivePath)).show();
         }
-        else
+        else if(!this.is_binned)
         {
-            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Archive", "archive", this.note_card_footer)).show();
+            (new NoteIcon(this, outlinedIconClasses, "me-auto", archiveTooltip, "archive", this.note_card_footer, archivePath)).show();
         }
         //showing the bin icon
         if(this.is_binned)
         {
-            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Delete forever", "delete_forever", this.note_card_footer)).show();
-            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Restore", "remove_from_trash", this.note_card_footer)).show();
+            (new NoteIcon(this, outlinedIconClasses, "me-auto", deleteforeverTooltip, "delete_forever", this.note_card_footer, deleteforeverPath)).show();
+            (new NoteIcon(this, outlinedIconClasses, "", restoreTooltip, "restore_from_trash", this.note_card_footer, restorePath)).show();
         }
         else
         {
-            (new NoteIcon(this, "note-card-icon material-symbols-outlined outlined-icon", "Delete", "delete", this.note_card_footer)).show();
+            (new NoteIcon(this, outlinedIconClasses, "ms-auto", deleteTooltip, "delete", this.note_card_footer, deletePath)).show();
         }
         this.note_card_body.append(this.note_title_container, this.note_card_text, this.note_card_footer);
         this.note_card.appendChild(this.note_card_body);
@@ -103,17 +103,21 @@ class Note
 //class for icons related to notes such as pin, unpin, archive, etc.
 class NoteIcon
 {
-    constructor(note, iconclasses, tooltip, iconcontent, iconcontainer)
+    constructor(note, iconclasses, buttonclass, tooltip, iconcontent, iconcontainer, path)
     {
         //data members
         this.note = note;
         this.icon_classes = iconclasses;
         this.icon_container = iconcontainer;
         this.tool_tip = tooltip;
+        this.path = path;
+
+        // console.log(this.tool_tip+this.path);
 
         //element for button
         this.button_element = document.createElement("button");
         this.button_element.classList.add("btn", "btn-light", "btn-floating", "ripple");
+        this.button_element.classList+=(" "+buttonclass);
         this.button_element.setAttribute("title", this.tool_tip);
         this.button_element.setAttribute("data-mdb-ripple-color", "dark");
 
@@ -124,6 +128,74 @@ class NoteIcon
 
         //placing icon inside button
         this.button_element.appendChild(this.icon_element);
+
+        //adding event listener for click on button
+        this.button_element.addEventListener("click", (click)=>
+        {
+            //stop propagation
+            click.stopPropagation();
+
+            console.log(this.path);
+
+            //sending ajax request to pin
+            fetch(this.path, 
+            {
+                method: "POST",
+                headers:
+                {
+                    "Content-type": "application/x-www-form-urlencoded"
+                },
+                body: "noteid=" + this.note.note_id
+            })
+            .then((response)=>
+            {
+                if(!(response.ok))
+                {
+                    throw new Error("Cannot complete " + this.tool_tip+ " operation: "+response.status);
+                }
+                return response.text();
+            })
+            .then((respText)=>
+            {
+                console.log(respText);
+            })
+            .catch((error)=>
+            {
+                console.log(error);
+            });
+
+            //now removing the note from the masonry
+            this.note.masonry.remove(this.note.note_col);
+            //layout masonry
+            this.note.masonry.layout();
+        });
+
+        //adding special callback for pin
+        if(this.tool_tip===pinTooltip)
+        {
+            this.button_element.addEventListener("click", (click)=>
+            {
+                click.stopPropagation();
+                //creating new note
+                let newnote = new Note(this.note.note_id, this.note.note_title, this.note.note_content, 1, 0, 0, this.note.note_modal, pinnedMasonry);
+                newnote.show("start");
+            });
+        }
+
+        //adding special callback for unpin
+        else if(this.tool_tip===unpinTooltip)
+        {
+            this.button_element.addEventListener("click", (click)=>
+            {
+                click.stopPropagation();
+                //creating new note
+                let newnote = new Note(this.note.note_id, this.note.note_title, this.note.note_content, 0, 0, 0, this.note.note_modal, unpinnedMasonry);
+                newnote.show("start");
+            });
+        }
+        
+        
+        
     }
 
     //method to show button

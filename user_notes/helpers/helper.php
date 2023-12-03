@@ -38,4 +38,33 @@
         return $notesArr;
     }
 
+    //function to update a note (its is_binned, is_pinned, is_archived flags and the insert_time)
+    function updateNote($note_id, $is_pinned, $is_archived, $is_binned)
+    {
+        //declaring global link here
+        global $link;
+
+        //query string
+        $sql = "update user_notes set is_pinned=?, is_archived=?, is_binned=? where note_id=? and user_id=?;";
+
+        //prepare statement
+        $stmt = mysqli_prepare($link, $sql);
+
+        //bind parameters
+        mysqli_stmt_bind_param($stmt, "iiiii", $param_is_pinned, $param_is_archived, $param_is_binned, $param_note_id, $param_user_id);
+
+        //set parameters
+        $param_is_pinned = $is_pinned;
+        $param_is_archived = $is_archived;
+        $param_is_binned = $is_binned;
+        $param_note_id = $note_id;
+        $param_user_id = $_SESSION["user_id"];
+
+        echo $is_pinned.$is_archived.$is_binned;
+
+        //execute
+        mysqli_execute($stmt);
+        // echo "oye";
+    }
+
 ?>
