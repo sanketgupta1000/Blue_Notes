@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast test</title>
+
+    <!-- mdb -->
+    <link rel="stylesheet" href="./mdb/css/mdb.min.css">
+
+</head>
+<body>
+    
+    <div class="toast-container p-3 top-0 end-0">
+
+        <div class="toast toast-primary" role="alert" aria-atomic="true" aria-live="assertive" data-mdb-delay="50000">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div class="toast-body ms-4">
+                    Note pinned
+                </div>
+
+                <button class="btn-close me-4" aria-label="Close" data-mdb-dismiss="toast"></button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="./mdb/js/mdb.min.js"></script>
+    <script>
+
+        let toast = new mdb.Toast(document.querySelector(".toast"));
+        toast.show();
+
+    </script>
+</body>
+</html>

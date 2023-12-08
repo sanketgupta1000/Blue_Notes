@@ -67,8 +67,8 @@
     <!-- masonry -->
     <script src="/blue_notes/masonry/masonry.pkgd.min.js"></script>
     <!-- custom script -->
-    <script src="/blue_notes/user_notes/helpers/helper.js"></script>
     <script src="/blue_notes/user_notes/helpers/classes.js"></script>
+    <script src="/blue_notes/user_notes/helpers/helper.js"></script>
     <script src="bin.js"></script>
     
 </body>

@@ -2,6 +2,10 @@
 //adding event listener on modal title element to update title as soon as user inputs
 edit_note_modal.modal_title_element.addEventListener("input", (input)=>
 {
+
+    //updating the note in memory
+    edit_note_modal.note.note_card_title.innerText = edit_note_modal.modal_title_element.innerText;
+
     //will make ajax request only when editing an existing note, or a newly created note
     if((!isCreatingNewNote)||isCreated)
     {
@@ -37,6 +41,10 @@ edit_note_modal.modal_title_element.addEventListener("input", (input)=>
 //adding event listener on modal body element to update content as soon as user inputs
 edit_note_modal.modal_body_element.addEventListener("input", (input)=>
 {
+
+    //updating the note in memory
+    edit_note_modal.note.note_card_text.innerText = edit_note_modal.modal_body_element.innerText;
+
     //will make ajax request only when editing an existing note, or a newly created note
     if((!isCreatingNewNote)||isCreated)
     {
@@ -72,15 +80,22 @@ edit_note_modal.modal_body_element.addEventListener("input", (input)=>
 //adding event listener to close button of modal, to updat actual note on frontend when user clicks it
 edit_note_modal.modal_close_btn.addEventListener("click", (click)=>
 {
-    //updating the note on screen
-    edit_note_modal.note_title_element.innerText = edit_note_modal.modal_title_element.innerText;
-    edit_note_modal.note_text_element.innerText = edit_note_modal.modal_body_element.innerText;
 
     //showing the note in case of newly created note
     if(isCreatingNewNote)
     {
-        edit_note_modal.note.show("start");
-        isCreatingNewNote = false;
+        //checking if note is empty
+        if(edit_note_modal.note.note_card_title.innerText=="" && edit_note_modal.note.note_card_text.innerText=="")
+        {
+            edit_note_modal.note.deleteIcon.button_element.click();
+            //will show empty note discarded message here in toaster
+            msg_toast.show(discardEmpt);
+        }
+        else
+        {
+            edit_note_modal.note.show("start");
+            isCreatingNewNote = false;
+        }
     }
     else
     {

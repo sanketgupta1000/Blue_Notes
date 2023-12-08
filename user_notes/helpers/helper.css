@@ -34,3 +34,9 @@
 {
     font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 20;
 }
+
+/* placeholders */
+.modal-title:empty::before, .modal-body:empty::before, .card-text:empty::before
+{
+    content: attr(placeholder);
+}

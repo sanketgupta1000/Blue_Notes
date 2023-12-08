@@ -23,6 +23,19 @@ const deletePath = "/blue_notes/user_notes/bin/delete.php";
 const restorePath = "/blue_notes/user_notes/bin/restore.php";
 const deleteforeverPath = "/blue_notes/user_notes/bin/delete_forever.php";
 
+//messages to display in toast
+const pinMsg = "Note Pinned";
+const unpinMsg = "Note unpinned";
+const archiveMsg = "Note archived";
+const unarchiveMsg = "Note moved to primary";
+const binMsg = "Note moved to bin";
+const unbinMsg = "Note moved to primary";
+const delForeverMsg = "Note deleted permanently";
+const discardEmpt = "Empty note discarded";
+
+//toast
+let msg_toast = new ActionToast();
+
 // function to show a link of navbar as active
 function showActive(linkId)
 {

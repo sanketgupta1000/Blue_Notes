@@ -92,12 +92,12 @@
     <!-- masonry -->
     <script src="/blue_notes/masonry/masonry.pkgd.min.js"></script>
     <!-- custom script -->
+    <script src="/blue_notes/user_notes/helpers/classes.js"></script>
     <script src="/blue_notes/user_notes/helpers/helper.js"></script>
     <script>
         // showing primary as active
         showActive("primaryLink");
-    </script>
-    <script src="/blue_notes/user_notes/helpers/classes.js"></script>
+        </script>
     <script src="primary.js"></script>
     <script src="/blue_notes/user_notes/helpers/modal_edit.js"></script>
 </body>

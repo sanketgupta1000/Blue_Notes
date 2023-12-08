@@ -28,6 +28,7 @@ class Note
         this.note_card_title.classList.add("card-title", "me-auto");
         this.note_card_text = document.createElement("p");
         this.note_card_text.classList.add("card-text");
+        this.note_card_text.setAttribute("placeholder", "Empty Note");
         this.note_card_footer = document.createElement("div");
         this.note_card_footer.classList.add("d-flex");
         this.note_title_container.append(this.note_card_title);
@@ -36,31 +37,32 @@ class Note
             //show the pin icon
             if(this.is_pinned)
             {
-                (new NoteIcon(this, filledIconClasses, "", unpinTooltip, "push_pin", this.note_title_container, unpinPath)).show();
+                (new NoteIcon(this, filledIconClasses, "", unpinTooltip, "push_pin", this.note_title_container, unpinPath, unpinMsg)).show();
             }
             else
             {
-                (new NoteIcon(this, outlinedIconClasses, "", pinTooltip, "push_pin", this.note_title_container, pinPath)).show();
+                (new NoteIcon(this, outlinedIconClasses, "", pinTooltip, "push_pin", this.note_title_container, pinPath, pinMsg)).show();
             }
         }
         //showing the archive icon
         if(this.is_archived)
         {
-            (new NoteIcon(this, outlinedIconClasses, "me-auto", unarchiveTooltip, "unarchive", this.note_card_footer, unarchivePath)).show();
+            (new NoteIcon(this, outlinedIconClasses, "me-auto", unarchiveTooltip, "unarchive", this.note_card_footer, unarchivePath, unarchiveMsg)).show();
         }
         else if(!this.is_binned)
         {
-            (new NoteIcon(this, outlinedIconClasses, "me-auto", archiveTooltip, "archive", this.note_card_footer, archivePath)).show();
+            (new NoteIcon(this, outlinedIconClasses, "me-auto", archiveTooltip, "archive", this.note_card_footer, archivePath, archiveMsg)).show();
         }
         //showing the bin icon
         if(this.is_binned)
         {
-            (new NoteIcon(this, outlinedIconClasses, "me-auto", deleteforeverTooltip, "delete_forever", this.note_card_footer, deleteforeverPath)).show();
-            (new NoteIcon(this, outlinedIconClasses, "", restoreTooltip, "restore_from_trash", this.note_card_footer, restorePath)).show();
+            (new NoteIcon(this, outlinedIconClasses, "me-auto", deleteforeverTooltip, "delete_forever", this.note_card_footer, deleteforeverPath, delForeverMsg)).show();
+            (new NoteIcon(this, outlinedIconClasses, "", restoreTooltip, "restore_from_trash", this.note_card_footer, restorePath, unbinMsg)).show();
         }
         else
         {
-            (new NoteIcon(this, outlinedIconClasses, "ms-auto", deleteTooltip, "delete", this.note_card_footer, deletePath)).show();
+            this.deleteIcon = (new NoteIcon(this, outlinedIconClasses, "ms-auto", deleteTooltip, "delete", this.note_card_footer, deletePath, binMsg));
+            this.deleteIcon.show();
         }
         this.note_card_body.append(this.note_title_container, this.note_card_text, this.note_card_footer);
         this.note_card.appendChild(this.note_card_body);
@@ -103,7 +105,7 @@ class Note
 //class for icons related to notes such as pin, unpin, archive, etc.
 class NoteIcon
 {
-    constructor(note, iconclasses, buttonclass, tooltip, iconcontent, iconcontainer, path)
+    constructor(note, iconclasses, buttonclass, tooltip, iconcontent, iconcontainer, path, toastMsg)
     {
         //data members
         this.note = note;
@@ -168,6 +170,9 @@ class NoteIcon
             this.note.masonry.remove(this.note.note_col);
             //layout masonry
             this.note.masonry.layout();
+
+            //showing message in toast
+            msg_toast.show(toastMsg);
         });
 
         //adding special callback for pin
@@ -177,7 +182,10 @@ class NoteIcon
             {
                 click.stopPropagation();
                 //creating new note
-                let newnote = new Note(this.note.note_id, this.note.note_title, this.note.note_content, 1, 0, 0, this.note.note_modal, pinnedMasonry);
+                console.log(this.note.note_id);
+                console.log(this.note.note_title);
+                console.log(this.note.note_content);
+                let newnote = new Note(this.note.note_id, this.note.note_card_title.innerText, this.note.note_card_text.innerText, 1, 0, 0, this.note.note_modal, pinnedMasonry);
                 newnote.show("start");
             });
         }
@@ -189,7 +197,10 @@ class NoteIcon
             {
                 click.stopPropagation();
                 //creating new note
-                let newnote = new Note(this.note.note_id, this.note.note_title, this.note.note_content, 0, 0, 0, this.note.note_modal, unpinnedMasonry);
+                console.log(this.note.note_id);
+                console.log(this.note.note_title);
+                console.log(this.note.note_content);
+                let newnote = new Note(this.note.note_id, this.note.note_card_title.innerText, this.note.note_card_text.innerText, 0, 0, 0, this.note.note_modal, unpinnedMasonry);
                 newnote.show("start");
             });
         }
@@ -246,3 +257,43 @@ class EditNoteModal
 
     
 }    
+
+//class for toast
+class ActionToast
+{
+    constructor()
+    {
+        //creating toast
+        this.toast_container = document.createElement("div");
+        this.toast_container.classList.add("toast-container", "p-3", "top-0", "end-0", "position-fixed");
+        this.toast_element = document.createElement("div");
+        this.toast_element.classList.add("toast", "toast-primary");
+        this.toast_element.setAttribute("role", "alert");
+        this.toast_element.setAttribute("aria-atomic", "true");
+        this.toast_element.setAttribute("aria-live", "assertive");
+        this.flex_container = document.createElement("div");
+        this.flex_container.classList.add("d-flex", "justify-content-between", "align-items-center");
+        this.toast_body = document.createElement("div");
+        this.toast_body.classList.add("toast-body", "ms-4");
+        this.close_btn = document.createElement("button");
+        this.close_btn.classList.add("btn-close", "me-4");
+        this.close_btn.setAttribute("data-mdb-dismiss", "toast");
+        this.close_btn.setAttribute("aria-label", "Close");
+
+        this.flex_container.append(this.toast_body, this.close_btn);
+        this.toast_element.appendChild(this.flex_container);
+        this.toast_container.appendChild(this.toast_element);
+
+        //getting mdb instance for toast
+        this.mdb_toast = new mdb.Toast(this.toast_element);
+
+        document.body.querySelector("aside").appendChild(this.toast_container);
+    }
+
+    //method to show this toast with a given message
+    show(message)
+    {
+        this.toast_body.innerText = message;
+        this.mdb_toast.show();
+    }
+}
