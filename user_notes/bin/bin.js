@@ -13,3 +13,7 @@ let offset = 0;
 window.addEventListener("scroll", loadNotesOnScrollHelper("view_binned.php", binnedMasonry));
 loadNotesOnScrollHelper("view_binned.php", binnedMasonry)();
 binnedMasonry.once("layoutComplete", ()=>{binnedMasonry.layout();});
+
+//remove contenteditable from modal
+document.querySelector(".modal-title").setAttribute("contenteditable", "false");
+document.querySelector(".modal-body").setAttribute("contenteditable", "false");
