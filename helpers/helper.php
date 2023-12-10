@@ -7,7 +7,7 @@
         if(isset($_SESSION["user_id"]))
         {
             //session already running
-            header("Location: /blue_notes/user_notes/notes/primary/primary.php");
+            header("Location: /blue_notes/user_notes/primary/primary.php");
             exit;
         }
     }
