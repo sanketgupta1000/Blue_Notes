@@ -20,4 +20,5 @@ A Notes App created with Material Design Bootstrap, Masonry JS, PHP
 3. Next, you need to create a oauth2 client for your gmail account to get the credentials for otp service: [Reference](https://github.com/PHPMailer/PHPMailer/wiki/Using-Gmail-with-XOAUTH2)
 4. After you have obtained clientid, clientsecret, and token, add those in a .env file in your repo
 5. Also edit your email in the user_acccount/helpers/helper.php file
-6. Done!
+6. Import the database from mysql/blue_notes.sql in your mysql db
+7. Done!
