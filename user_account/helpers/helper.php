@@ -17,6 +17,10 @@
     //setting accurate time for phpmailer
     date_default_timezone_set("Etc/UTC");   
 
+    //loading necessary env vars
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../../");
+    $dotenv->load();
+
     function sendOTP($email, $textBeforeOTP, $textAfterOTP)
     {
         //generating an otp
@@ -33,9 +37,12 @@
         $mail->SMTPAuth = true;
         $mail->AuthType = "XOAUTH2";
 
-        $clientId = "918636159012-6k5tc5e17jpgr8imraqo2e8e4getn8eb.apps.googleusercontent.com";
-        $clientSecret = "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";
-        $refreshToken = "1//0gwkuD99zjut2CgYIARAAGBASNwF-L9Ir-lX_aapW9BCXPHsKEd9c7jb6ZtWnCn7-gAjyNqQAW2watIvU8PhrgrcO0Za6suZX19w";
+        $clientId = $_ENV['CLIENT_ID'];
+        // echo $clientId;
+        $clientSecret = $_ENV['CLIENT_SECRET'];
+        // echo $clientSecret;
+        $refreshToken = $_ENV['TOKEN'];
+        // echo $refreshToken;
         $senderEmail = "bluenotesteam@gmail.com";
 
         //oauth2 provider object

@@ -2,3 +2,4 @@ mdb/
 vendor/
 composer.*
 masonry/
+.env
